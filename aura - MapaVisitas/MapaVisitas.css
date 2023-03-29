@@ -1,0 +1,41 @@
+.THIS.c-container {
+    border: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+}
+.THIS .Mapa-Container{
+    text-align: center;
+    border: 0px;
+    border-radius: .25rem;
+    width: 100%;
+    height: 540px;
+    position: relative;
+}
+.THIS .Mapa{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: White;
+    -webkit-box-shadow: 7px 7px 10px 0px rgba(5, 0, 0, 0.26);
+    -moz-box-shadow:    7px 7px 10px 0px rgba(5, 0, 0, 0.26);
+    box-shadow:         7px 7px 10px 0px rgba(5, 0, 0, 0.26);  
+}
+.THIS .float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#54698D;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+    z-index:1;
+}
+.THIS .line{
+	background-color: #E9EBEC;
+	height: 35px;    
+    border-radius:15px;
+}

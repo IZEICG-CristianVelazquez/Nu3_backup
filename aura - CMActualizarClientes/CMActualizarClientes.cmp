@@ -1,0 +1,4 @@
+<aura:component controller="CMActualizarClientesController" implements="flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId,lightning:actionOverride,lightning:isUrlAddressable,forceCommunity:availableForAllPageTypes"  access="GLOBAL">
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <lightning:button variant="brand" label="Actualizar Clientes" disabled="{!v.isLoading}"  onclick="{! c.actualizar }" />
+</aura:component>

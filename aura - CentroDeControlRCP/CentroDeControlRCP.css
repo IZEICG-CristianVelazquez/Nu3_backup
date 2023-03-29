@@ -1,0 +1,23 @@
+.THIS.main {
+    background-color: white;
+    box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.75);
+    width: 100%;
+    padding-top: 15px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    padding-left: 30px;
+}
+.THIS .title{
+    margin: 1em;
+    text-align: center;
+    background-color: #161D3C;
+    color :white;
+    font-size: 1.5em;
+}
+.THIS .subtitle{
+    margin: 35px;
+    text-align: center;
+    background-color: #E9EBEC;
+    color: #161D3C;
+    border-radius: 25px; 
+}

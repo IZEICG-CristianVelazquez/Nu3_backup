@@ -1,0 +1,51 @@
+<aura:component controller="PDFSendMailController" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+
+    <aura:html tag="style">
+        .slds-modal__container{
+        height : auto;
+        width: 70%;
+        max-width: 70rem;
+        }
+        .modal-body{
+        height : 700px !important;
+        max-height: 700px !important;
+        }
+        
+        .customFooter{
+        display: inline !important;
+        }
+	</aura:html> 
+    
+    <aura:attribute name="recordId" type="String" />	
+	<aura:attribute name="pdfData" type="String"/>
+    <aura:attribute name="pdfContainer" type="Aura.Component[]"/>
+    <aura:attribute name="parentRecord" type="Object"/>
+	<aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="error" type="String"/>
+    <aura:attribute name="habilitar" type="Boolean" default="false"/>
+
+        <force:recordData aura:id="forceRecordCmp"
+        recordId="{!v.recordId}"
+        layoutType="FULL"
+        fields="OrderNumber"
+        mode="VIEW"
+        targetRecord="{!v.parentRecord}"
+        targetFields="{!v.simpleRecord}"
+        targetError="{!v.error}"
+        recordUpdated="{!c.recordUpdated}" 
+        />
+    
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+
+    <lightning:card iconName="doctype:pdf" title="Visualización Prefactura">
+
+            {!v.pdfContainer}
+
+    </lightning:card>
+        
+
+        <lightning:button name="cerrar" label="Cerrar" onclick="{!c.closeQuickAction}"/>
+        <lightning:button name="guardar" label="Guardar" onclick="{!c.guardarPDF}" disabled="{!v.habilitar}"/>
+
+
+</aura:component>

@@ -1,0 +1,120 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,lightningcommunity:allowInRelaxedCSP" 
+                access="global" 
+                controller="CentroDeControlRCPController" >
+    
+    <!-- Handlers-->
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    
+    <!-- Library-->
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+   
+    <!--Attributes--> 
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="dataJSON" type="String" />
+
+    <!-- EMP API component -->
+    <lightning:empApi aura:id="empApi" />
+    
+    <!-- Holds the streaming event subscription -->
+    <aura:attribute name="subscription" type="Map" />
+    <aura:attribute name="channel" type="String" default="/event/RecordChange__e"/>
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="msgAlert" type="String"/>
+    
+    <div class="slds-m-around_xx-large">
+           
+        <aura:if isTrue="{!v.isOpen}">
+             
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+          
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">ATENCIÓN</h2>
+                    </header>
+                    
+    
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p><b>{!v.msgAlert}</b></p>
+                    </div>
+              
+                    <footer class="slds-modal__footer"></footer>
+                </div>
+            </section>
+            
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            
+        </aura:if>
+    </div>
+    
+    <div class="main">
+        
+        <div class="slds-grid slds-gutters subtitle">
+            <div class="slds-col slds-size_7-of-7">
+                <div class="slds-text-heading_medium">Lista de espera</div>
+            </div>
+        </div>
+        
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th class="" scope="col">
+                        <div class="slds-truncate " title="Num">
+                            <lightning:icon iconName="standard:topic2" size="X-Small" alternativeText="#" />
+                        </div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="nombre">Nombre</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="unidadNegocio">Unidad de negocio</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="anden">Andén</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="status">Estatus del pedido</div>
+                    </th>                    
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.data}" var="item">
+                    
+                    <tr class="slds-hint-parent">
+                        <td data-label="NUM" scope="row">
+                            <div class="slds-truncate">{!_index + 1}</div>
+                        </td>
+                        <td data-label="nombre">
+                            <div class="slds-truncate" title="nombre">{!item.nombre}</div>
+                        </td>
+                        <td data-label="unidadNegocio">
+                            <div class="slds-truncate" title="unidadNegocio">{!item.unidadNegocio}</div>
+                        </td>
+                        <td data-label="anden">
+                            
+                            <aura:if isTrue="{!item.anden != 'En espera'}">
+                           
+                                <div class="slds-truncate" title="anden" style="background-color: #4FAA2C; color: White;">{!item.anden}</div>
+                                
+                                <aura:set attribute="else">
+                                    <div class="slds-truncate" title="anden">{!item.anden}</div>
+                                </aura:set>
+                                
+                            </aura:if>  
+                            
+                        
+                        </td>
+                        
+                        <td data-label="status">
+                            <div class="slds-truncate" title="status">{!item.status}</div>
+                        </td>                        
+                    </tr>
+                </aura:iteration>
+                
+            </tbody>
+        </table>
+        
+    </div>
+    
+    
+    
+</aura:component>

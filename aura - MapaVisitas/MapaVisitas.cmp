@@ -1,0 +1,151 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" controller="visitaLocation">
+    
+    <!-- attributes Date -->
+    <aura:attribute name="dateInit" type="Date" access="PRIVATE"/>
+    <aura:attribute name="dateFin" type="Date" access="PRIVATE"/>
+    
+    <!-- attributes Select -->
+    <aura:attribute name="options" type="List" access="PRIVATE"/>
+    <aura:attribute name="selectedValue" type="String" access="PRIVATE"/>
+    
+    <!-- attributes Map -->
+    <aura:attribute name="mapMarkers" type="Object" />
+    <aura:attribute name="center" type="Object" />
+    <aura:attribute name="zoomLevel" type="Integer" default="7" />
+    <aura:attribute name="markersTitle" type="String"  default="Google Maps"/>
+    <aura:attribute name="showFooter" type="Boolean" default="true" />
+    <aura:attribute name="title" type="String" default="Google Maps"/>
+    
+    <!-- attributes LookupComponent -->
+    <aura:attribute name="selectedObjectDisplayName" type="String" />
+    <aura:attribute name="selectedObject" type="Object" />
+    <aura:attribute name="lookupId" type="Id"/>
+    <aura:attribute name="lookupobj" type="Object"/>
+    
+    <!-- handlers-->
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    
+    <!-- handlers Lookup-->
+    <aura:handler name="lookupSelected" event="c:LookupSelected" action="{!c.handleSelectedEvent}"/>
+    <aura:handler name="selectedLookupRemoved" event="c:selectedLookupRemoved" action="{!c.handleRemovedEvent}"/>
+    
+    <!-- attributes modal --> 
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    
+    
+    <!-- container -->
+    <div class="c-container">
+        <lightning:layout horizontalAlign="spread" multipleRows="true">
+            
+            <!-- mapa -->
+            <lightning:layoutItem flexibility="grow" size="12" mediumDeviceSize="12" largeDeviceSize="12" padding="around-small">
+                
+                <div class="Mapa-Container">      
+                    
+                    <!-- the map component -->
+                    <aura:if isTrue="{!v.mapMarkers.length > 0}" >
+                        <lightning:map
+                                       mapMarkers="{!v.mapMarkers}"
+                                       center="{! v.center }"
+                                       zoomLevel="{! v.zoomLevel }"
+                                       markersTitle="{! v.markersTitle }"
+                                       showFooter="{ !v.showFooter }" 
+                                       class="Mapa">
+                        </lightning:map> 
+                    </aura:if>
+                    
+                </div>
+                
+            </lightning:layoutItem>
+            
+        </lightning:layout>
+    </div>
+    
+    
+    <!-- modal filters -->
+    <div class="slds-m-around_xx-large">
+        
+        <lightning:button variant="brand"
+                          iconName="utility:search"
+                      
+                          onclick="{! c.openModel }"
+                          class="float"/>
+        
+        
+        <aura:if isTrue="{!v.isOpen}">
+            
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    
+                    <!-- Header -->
+                    <header class="slds-modal__header">
+                        
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        
+                        <lightning:icon iconName="utility:connected_apps" alternativeText="Connected" />
+                        <h4 style="color: #76C6EE">Filtro de búsqueda</h4>
+                        
+                    </header>
+                    
+                    <!-- Body -->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        
+                        <lightning:select name="mySelect1" label="Canal:" aura:id="mySelect1" value="{!v.selectedValue}">
+                            <aura:iteration items="{!v.options}" var="item">
+                                <option text="{!item}" value="{!item.id}" selected="{!item.selected}"/>
+                            </aura:iteration>
+                        </lightning:select>
+                        
+                        
+                        <lightning:input type="date" name="input2" label="Fecha inicio" value="{!v.dateInit}"/>
+                        <lightning:input type="date" name="input3" label="Fecha fin" value="{!v.dateFin}"/>
+                        
+                        <aura:if isTrue="{! not(empty(v.selectedValue)) }">
+                            <c:LookupComponent aura:id="lookupcomponent" objectName="User"
+                                               fieldSet="['ID', 'Name', 'pick_canal__c','IsActive']"
+                                               whereCondition="{!  'AND pick_canal__c = '+ '\''+v.selectedValue+'\'' }"
+                                               limit="5"
+                                               comparisonField="['Name']" 
+                                               primaryDisplayField="Name"
+                                               minimumCharacter="3"
+                                               lightningIconName="standard:person_account"
+                                               uniqueLookupIdentifier="testAccount"
+                                               lookupId="{!v.lookupId}"
+                                               value="{!v.lookupobj}"
+                                               required="false"
+                                               requiredErrorMessage="Este campo es requerido"
+                                               fieldLabel="Responsable"
+                                               lookupInputFocused="true"
+                                               /> 
+                        </aura:if>
+                        <div class="line"></div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" 
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"/>
+                        <lightning:button variant="neutral" 
+                                          label="Buscar" 
+                                          iconName="utility:search" 
+                                          iconPosition="right" 
+                                          onclick="{!c.getData}"/>
+                    </footer>
+                    
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            
+        </aura:if>
+    </div>
+    
+    
+    
+</aura:component>
