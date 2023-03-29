@@ -1,0 +1,172 @@
+<apex:page standardStylesheets="false" showHeader="false" controller="DetalleEncuestaController">
+    
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"/>
+    <apex:includeScript value="{!$Resource.AutoInit}"/>
+    
+    <style type="text/css">
+        *{
+        padding: 0;
+        border: 0;
+        }
+        #nu3-header{
+        background-color: #E9EBEC;
+        }
+        .img-logo{
+        width: 75px;
+        height: 70px;
+        }
+        
+        .myButton {
+        background-color:#467c8f;
+        border-radius:4px;
+        display:inline-block;
+        cursor:pointer;
+        color:#ffffff;
+        font-family:Arial;
+        font-size:20px;
+        padding:11px 30px;
+        text-decoration:none;
+        }
+        .myButton:hover {
+        background-color:#5ea1ab;
+        }
+        .myButton:active {
+        position:relative;
+        top:1px;
+        
+        }
+
+     
+
+
+    </style>
+    
+    
+    <nav>
+        <div class="nav-wrapper" id="nu3-header">
+            
+            <apex:image value="{!URLFOR($Resource.nu3LogoPng)}" styleClass="brand-logo img-logo"/>
+            
+        </div>
+    </nav>
+    <div class="container">
+       
+        <div class="row">
+        
+        <div class="card-panel grey lighten-5  col s12 " id="detailsSurvey">
+            
+            <blockquote>
+                <p style="font-size:3vw;">En <span style="color: #92002D;">Grupo Nu3</span> nos interesa su opinión.</p>
+            </blockquote>
+            
+            <div style="font-size:3vw;">Seleccione el área involucrada:</div>
+
+            <div>
+                <p>
+                    <label>
+                        <input class="with-gap" name="group1" type="radio"  id='opc1'/>
+                        <span style="font-size:2vw;">Calidad</span>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input class="with-gap" name="group1" type="radio"  id='opc2'/>
+                        <span style="font-size:2vw;">Crédito y cobranza</span>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input class="with-gap" name="group1" type="radio"  id='opc3'/>
+                        <span style="font-size:2vw;">Logística / Transporte</span>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input class="with-gap" name="group1" type="radio"  id='opc4'/>
+                        <span style="font-size:2vw;">Mercadotecnia</span>
+                    </label>
+                </p>
+            </div>
+            
+            <div style="font-size:3vw;">Si tiene algun comentario respecto a su pedido comentenos al respecto.</div>
+
+            <div class="input-field">
+                <textarea id="txt-inconformidad" class="materialize-textarea"></textarea>
+                <label for="txt-inconformidad">Describa su inconformidad</label>
+            </div>
+            
+            <center>
+                <a href="#" id="btnGuardar" class="myButton" onclick=" sendData(); return false;">Enviar</a>
+            </center>
+            <div id="responseErrors"></div>
+            
+            
+        </div>
+        
+    </div>
+        
+    </div>
+ 	
+    <script type="text/javascript">
+    
+    function sendData(){
+        
+        const queryString = window.location.search;
+        console.log(queryString);
+        const urlParams = new URLSearchParams(queryString);
+        console.log('idDetEncuesta: '+urlParams.get('idDetEncuesta'));
+        
+        var selectCalidad = document.getElementById('opc1').checked;
+        var selectCreditoCobranza = document.getElementById('opc2').checked;
+        var selectLogicaTransporte = document.getElementById('opc3').checked;
+        var selectMercadotecnia = document.getElementById('opc4').checked;
+        var txtInconformidad = document.getElementById('txt-inconformidad').value;
+        var opc = '';
+        
+        opc = (selectCalidad)? 'Calidad' : opc;
+        opc = (selectCreditoCobranza)? 'Crédito y cobranza' : opc;
+        opc = (selectLogicaTransporte)? 'Logística / Transporte' : opc;
+        opc = (selectMercadotecnia)? 'Mercadotecnia' : opc;
+        
+        console.log('txtInconformidad: '+txtInconformidad); 
+        console.log('opc: '+opc); 
+        
+        if(opc=='' || txtInconformidad==''){
+            
+            M.toast({html: 'No olvides los datos!'})
+            
+        }else{
+            
+            var idDetEnc = urlParams.get('idDetEncuesta');
+            var msj = '['+opc+'] '+txtInconformidad;
+            
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.DetalleEncuestaController.saveSurveyDetail}',
+                msj,
+                idDetEnc, 
+                function(result, event){
+                    if (event.status) {
+                        // Get DOM IDs for HTML and Visualforce elements like this
+                        document.getElementById('detailsSurvey').innerHTML = '<p style=\"font-size:3vw;\">'
+                        +'Su mensaje fue enviado correctamente, nos sentimos orgullosos de tener clientes como usted, '
+                        +'pronto recibirá noticias de nuestro personal de atención a clientes. <br><span style=\"color: #92002D;\">Grupo Nu3'
+                        +'</span> agradece su atención.</p>';
+                        
+                    } else if (event.type === 'exception') {
+                        document.getElementById("responseErrors").innerHTML = event.message + "<br/>\n<pre>" + event.where + "</pre>";
+                    } else {
+                        document.getElementById("responseErrors").innerHTML = event.message;
+                    }
+                }, 
+                {escape: true}
+            );
+            
+        }
+    }
+    
+    </script>
+    
+</apex:page>

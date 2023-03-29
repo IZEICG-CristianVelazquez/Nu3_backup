@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>TwilioKeys</label>
+    <protected>false</protected>
+    <values>
+        <field>PhoneNumber__c</field>
+        <value xsi:type="xsd:string">+525549998636</value>
+    </values>
+    <values>
+        <field>accountSidTwilio__c</field>
+        <value xsi:type="xsd:string">ACc9d304de7cef9d854e9fb81430da8925</value>
+    </values>
+    <values>
+        <field>tokenTwilio__c</field>
+        <value xsi:type="xsd:string">ef935ebbba574598eaed82a2dd6b051c</value>
+    </values>
+</CustomMetadata>

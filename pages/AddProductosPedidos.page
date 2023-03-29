@@ -1,0 +1,323 @@
+<apex:page standardController="Order" extensions="AddProductosPedidosController"
+           standardStylesheets="true" sidebar="true" applyHtmlTag="false"
+           applyBodyTag="false" showHeader="false" docType="html-5.0"
+           lightningStylesheets="true" >
+
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+
+        <head>
+                <meta charset="utf-8" />
+                <meta http-equiv="x-ua-compatible" content="ie=edge" />
+                <title>Add Products</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <apex:slds />
+
+                <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" />
+                <apex:includeScript value="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.17.8/js/jquery.tablesorter.min.js" />
+                <apex:stylesheet value="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.17.8/css/theme.blue.css" />
+            
+                <style type="text/css">
+                    /* Landscape */
+                    .scroll{
+                        max-height: 20rem !important;
+                        height: 20%;
+                        width: 100vw;
+                    }
+
+                    .scroll2{
+                        max-height: 20rem !important;
+                        height: 20%;
+                        width: 100vw;
+
+                    }
+
+                    .scroll3{
+                        max-height: 100rem !important;
+                        height: 100%;
+                        width: 100vw;
+
+                    }
+                    
+                    @media 
+                    (min-width: 640px) and (max-width: 2736px)   { 
+                        
+                        table.cambiarFuente tr td,table.cambiarFuente tr th a span{
+                            font-size: 8pt;
+                        }
+                        .scroll{
+                            max-height: 20rem !important;
+                            height: 20%;
+                            width: 100vw;
+                        }
+                        .scroll2{
+                            max-height: 20rem !important;
+                            height: 20%;
+                            width: 100vw;
+                        }
+                        #theform{
+                            height: 500px;
+                        }
+
+                    }
+                </style>
+            
+        </head>
+
+        <body>
+        <div class="slds-scope">
+            <section>
+                <div>
+                    <apex:form id="theForm">
+                        
+                        <script>
+                            function deshabilitar() {
+                                var btn = document.querySelector("[id$='btnGuardar']");
+                                btn.className = 'btn btnDisabled';
+                                btn.disabled = 'disabled';
+                                save();
+                            }
+                        </script>
+                        
+                        <apex:actionFunction action="{!saveProducts}" name="save"/>
+
+                        <apex:outputPanel id="pickList" rendered="{!hasLstPrecios == false}">
+                            
+                            <div><h2>Seleccionar lista de precios</h2></div>
+                            <apex:selectList value="{!selectedvalue}" size="1" multiselect="false">
+                                <apex:selectOptions value="{!selectValues}"/>
+                            </apex:selectList>
+                            <apex:commandButton onkeydown="if(event.keyCode==13){this.blur();}" action="{! next }" value="Siguiente"/>
+                        </apex:outputPanel>
+
+                        <apex:outputPanel id="main-panel" rendered="{!hasLstPrecios == true}">
+                            <div>
+                                <div class="slds-col slds-grid slds-grid_vertical slds-nowrap">
+                                    <div>
+                                        <label>Buscar</label>
+                                    </div>
+                                    <div class="input-group">
+                                        <input id="searchInput" type="text" style="margin-bottom: 5px;"/>
+                                        <span>
+                                            <button type="button" onclick="searchFunction()" class="slds-button slds-button_brand">Buscar</button>
+                                        </span>
+                                    </div>
+                                    <!-- Lista para agregar-->
+                                        <apex:outputPanel style="margin-bottom: 5px;">
+                                            <div class="slds-table_edit_container slds-is-relative slds-scrollable scroll" style="height: 100%;">
+                                                <table id="productTable" class="slds-table slds-table_bordered slds-table_resizable-cols" role="grid">
+                                                    <thead>
+                                                        <tr>
+                                                            <td><span>{! $ObjectType.Product2.fields.Name.Label}</span></td>
+                                                            <!-- <td style="background-color: blue; color: white;"><span>{! $ObjectType.Product2.fields.Categor_a__c.Label}</span></td> -->
+                                                            <td><span>{! $ObjectType.Product2.fields.QuantityUnitOfMeasure.Label}</span></td>
+                                                            <td><span>{! $ObjectType.Product2.fields.ProductCode.Label}</span></td>
+                                                            <td><span>{! $ObjectType.OrderItem.fields.Quantity.Label}</span></td>
+                                                            <td><span>{! $ObjectType.Product2.fields.Kilogramos_unidad__c.Label}</span></td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <apex:repeat value="{!Productos}" var="p">
+                                                                <input id="constantKg{!p.Id}" value="{!p.Product2.Kilogramos_unidad__c}" type="hidden"/>
+                                                            <tr>
+                                                                <td role="gridcell" width="35%">
+                                                                    <div class="slds-form-element slds-grid slds-wrap">
+                                                                        <div class="slds-form-element__control slds-grow slds-truncate">
+                                                                            <a>{!p.Name}</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <!-- <td width="10%" style="background-color: blue; color: white;">{!p.Product2.Categor_a__c}</td> -->
+                                                                <td width="10%">{!p.Product2.QuantityUnitOfMeasure}</td>
+                                                                <td width="15%">{!p.ProductCode}</td>
+                                                                <td width="20%">
+                                                                    <input id="cantidad{!p.Id}" type="number" onchange="updateKilograms(this,'{!p.Id}')" onkeydown="if(event.keyCode==13){this.blur();}" min="1"/>
+                                                                </td>
+                                                                <td width="20%">
+                                                                    <input id="kilogramos{!p.Id}" value="{!p.Product2.Kilogramos_unidad__c}" disabled="true" html-step="0.001"/>
+                                                                </td>
+                                                            </tr>
+                                                        </apex:repeat>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <apex:commandButton styleClass="slds-button slds-button_brand" onkeydown="if(event.keyCode==13){this.blur();}" onclick="addProductos(); return false;" value="Agregar"/> 
+                                            <apex:commandButton styleClass="slds-button slds-button_brand" onkeydown="if(event.keyCode==13){this.blur();}" action="{! cancel }" value="Cancelar"/> 
+                                        </apex:outputPanel>
+                                    <!-- Lista de agregados-->
+                                        <apex:outputPanel id="prodSelect">
+                                            <div class="slds-table_edit_container slds-is-relative slds-scrollable scroll2" style="height: 100%;">
+                                                <table class="slds-table slds-table_bordered slds-table_resizable-cols" role="grid">
+                                                    <thead>
+                                                        <tr>
+                                                            <td><span>{! $ObjectType.PricebookEntry.fields.Name.Label}</span></td>
+                                                            <td><span>{! $ObjectType.PricebookEntry.fields.ProductCode.Label}</span></td>
+                                                            <td><span>{! $ObjectType.PricebookEntry.fields.UnitPrice.Label}</span></td>
+                                                            <td><span>{! $ObjectType.OrderItem.fields.Quantity.Label}</span></td>
+                                                            <td><span>Total</span></td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <apex:variable value="{!0}" var="montoTotal"/>
+                                                        <apex:repeat value="{!lstProductos}" var="lstP" rendered="{!lstProductos.size > 0}">
+                                                            <apex:variable var="total" value="{!ROUND(lstP.unitPrice * lstP.quantity,2)}"/>
+                                                            <apex:variable var="montoTotal" value="{!montoTotal + total}"/>
+                                                            <tr>
+                                                                <td>{!lstP.name}</td>
+                                                                <td>{!lstP.productCode}</td>
+                                                                <td>{!lstP.unitPrice}</td>
+                                                                <td>{!lstP.quantity}</td>
+                                                                <td>${!total}MXN</td>
+                                                                <td>
+                                                                    <apex:commandButton styleClass="slds-button slds-button_destructive" onkeydown="if(event.keyCode==13){this.blur();}" onclick="removeProductos('{!lstP.productId}'); return false;" value="Eliminar"/> 
+                                                                </td>
+                                                            </tr>
+                                                        </apex:repeat>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>
+                                                                Monto Total: ${!montoTotal}MXN
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <apex:pageBlock >
+                                                <apex:pageMessages id="idMensajeError"/>
+                                            </apex:pageBlock>
+                                            <apex:commandButton id="btnGuardar" styleClass="slds-button slds-button_success" onkeydown="if(event.keyCode==13){this.blur();}"  value="Guardar" onclick="deshabilitar()" rendered="{! and(isSelected == true,lstProductos.size > 0)}"/>                                                
+                                        </apex:outputPanel>
+                            
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                        <apex:actionFunction name="addProducto" action="{! addSelectedProductos}" reRender="prodSelect">
+                            <apex:param name="lstParam" value="" assignTo="{!lstSelectProductos}"/>
+                        </apex:actionFunction>
+                    </apex:form>
+                </div>
+            </section>
+        </div>
+            
+        </body>
+
+        <script>
+       
+            var lstProductos = [];
+
+            function searchFunction() {
+            // Declare variables 
+            var input, filter, table, tbody, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("productTable");
+            tbody = table.getElementsByTagName("tbody")[0];
+            tr = tbody.getElementsByTagName("tr");
+            
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+                } 
+            }
+
+            document.getElementById("searchInput").value = '';
+
+            }
+
+            function updateKilograms(element,Id){
+
+                console.log(element);
+                console.log(Id);
+                var elId = element.id;
+                var constantKg = 'constantKg'+Id;
+                var kilogramos = 'kilogramos'+Id;
+                console.log(elId);
+                var hiddenId = elId.replace(elId,constantKg);
+                console.log(hiddenId);
+                var targetId = elId.replace(elId, kilogramos);
+                console.log(targetId);
+                var cantidad = document.getElementById(elId).value;
+                console.log(cantidad);
+                var kg = document.getElementById(hiddenId).value;
+                console.log(kg);
+                var newKG = (cantidad * kg);
+                console.log(newKG);
+
+                document.getElementById(targetId).value = newKG;
+
+                selectedProductos(Id,cantidad);
+
+            }
+
+            function selectedProductos(Id,cantidad){
+
+                if(lstProductos.length < 1){
+
+                    lstProductos.push({"Id":Id,"cantidad":cantidad});
+
+                }else{
+                    
+                    var index = lstProductos.findIndex(function(item,i){
+                        return item.Id === Id;
+                    });
+
+                    console.log(index);
+
+                    if(index > -1){
+
+                        if(lstProductos[index].Id == Id && lstProductos[index].cantidad != cantidad){
+
+                            console.log("Mismo Id, diferente cantidad");
+
+                            lstProductos.splice(index,1,{Id,cantidad});
+
+                        }
+
+                    }else{
+
+                        lstProductos.push({"Id":Id,"cantidad":cantidad});
+
+                    }         
+
+                }
+
+                console.log(lstProductos);
+
+            }
+
+            function addProductos(){
+
+                console.log("addProductos");
+                
+                addProducto(JSON.stringify(lstProductos));
+
+            }
+
+            function removeProductos(productId){
+
+                var index = lstProductos.findIndex(function(item,i){
+                    return item.Id === productId;
+                });
+
+                if(index > -1){
+
+                    lstProductos.splice(index,1);
+
+                }
+
+                addProducto(JSON.stringify(lstProductos));
+
+            }
+        </script>
+    </html>
+</apex:page>

@@ -1,0 +1,170 @@
+<apex:page standardController="Order" extensions="AddPromocionesPedidosController" standardStylesheets="true" sidebar="true" applyHtmlTag="false" applyBodyTag="false" showHeader="false" docType="html-5.0" lightningStylesheets="true">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+
+        <head>
+                <meta charset="utf-8" />
+                <meta http-equiv="x-ua-compatible" content="ie=edge" />
+                <title>Add Products </title>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <apex:slds />
+
+                <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" />
+                <apex:includeScript value="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.17.8/js/jquery.tablesorter.min.js" />
+                <apex:stylesheet value="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.17.8/css/theme.blue.css" />
+            
+                <style type="text/css">
+                    /* Landscape */
+                    .scroll{
+                        max-height: 20rem !important;
+                        height: 20%;
+                        width: 100vw;
+                    }
+
+                    .scroll2{
+                        max-height: 20rem !important;
+                        height: 20%;
+                        width: 100vw;
+
+                    }
+
+                    .scroll3{
+                        max-height: 100rem !important;
+                        height: 100%;
+                        width: 100vw;
+
+                    }
+                    
+                    @media 
+                    (min-width: 640px) and (max-width: 2736px)   { 
+                        
+                        table.cambiarFuente tr td,table.cambiarFuente tr th a span{
+                            font-size: 8pt;
+                        }
+                        .scroll{
+                            max-height: 20rem !important;
+                            height: 20%;
+                            width: 100vw;
+                        }
+                        .scroll2{
+                            max-height: 20rem !important;
+                            height: 20%;
+                            width: 100vw;
+                        }
+                        #theform{
+                            height: 500px;
+                        }
+
+                    }
+                </style>
+        </head>
+
+        <body>
+        <div class="slds-scope">
+            <section>
+                <div>
+                    <apex:form id="theForm">
+                        
+                        <apex:outputPanel id="main-panel" >
+                            <div>
+                                <div class="slds-col slds-grid slds-grid_vertical slds-nowrap">
+                                        <apex:outputPanel style="margin-bottom: 5px; margin-top: 15px;">
+                                            <div class="slds-table_edit_container slds-is-relative slds-scrollable scroll" style="height: 100%;">
+                                                <table id="productTable" class="slds-table slds-table_bordered slds-table_resizable-cols" role="grid">
+                                                    <thead>
+                                                        <tr>
+                                                            <td><span>Producto promoción</span></td>
+                                                            <td><span>Promoción</span></td>
+                                                            <td><span>Disponible</span></td>
+                                                            <td><span>Cantidad</span></td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <apex:repeat value="{!Productos}" var="p">
+                                                            <tr>
+                                                                <td role="gridcell" width="35%">
+                                                                    <div class="slds-form-element slds-grid slds-wrap">
+                                                                        <div class="slds-form-element__control slds-grow slds-truncate">
+                                                                            <a>{!p.Producto_promocion__r.Name}</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                               <td width="10%">{!p.Name}</td>
+                                                                <td width="15%">{!p.Cantidad_Disponible_Promocion__c}</td> <!-- {!p.Cantidad_libre_Promocion__c} /  -->
+                                                                <td width="20%">
+                                                                    <input id="{!p.Id}"  onkeyup="agregarDetallePromocion(this,'{!p.Cantidad_Disponible_Promocion__c}', '{!p.Id}', '{!p.Producto_base__c}', '{!p.Producto_promocion__c}')" onkeydown="if(event.keyCode==13){this.blur();}" min="0" value='{!p.Cantidad_Usada_Producto_Promocion__c}' /><!-- , {!p.Cantidad_libre_Promocion__c} -->
+                                                                </td>
+                                                            </tr>
+                                                        </apex:repeat>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <br/>
+                                            <br/>
+                                           <apex:commandButton id="btnGuardar" styleClass="slds-button slds-button_brand" onkeydown="if(event.keyCode==13){this.blur();}" onclick="guardarPromociones(); return false;" value="Guardar" disabled="true"/> 
+                                        </apex:outputPanel>
+                        
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                        <apex:actionFunction name="crearRegistros" action="{! addDetallesPromocion}" reRender="prodSelect">
+                            <apex:param name="lstParam" value="" assignTo="{!lstDetallePromocion}"/>
+                        </apex:actionFunction>
+                    </apex:form>
+                </div>
+            </section>
+        </div>
+            
+        </body>
+
+        <script>
+
+            var lstDetallePromocion = [];
+            
+            function agregarDetallePromocion(element, cantidad_disponible_promocion, Id, IdProductoBase, IdProductoPromocion/*, cantidad_libre*/){
+
+                var elId = element.id;
+                var cantidad_usada = parseInt(document.getElementById(elId).value);
+                cantidad_disponible_promocion = parseInt(cantidad_disponible_promocion);
+                console.log('cantidad usada' + cantidad_usada);
+                console.log('cantidad disponible' + cantidad_disponible_promocion);
+
+                if(cantidad_usada && cantidad_usada <= cantidad_disponible_promocion){
+                    document.getElementById(elId).className = "success";  // this adds the error class
+                    document.querySelector("[id$='btnGuardar']").disabled = false;
+
+                    if(cantidad_usada > 0){
+                        if(lstDetallePromocion.length < 1){
+
+                            lstDetallePromocion.push({"Promocion_id":Id, "Producto_base_id":IdProductoBase, "Producto_promocion_id":IdProductoPromocion, "Cantidad_disponible_promocion":cantidad_disponible_promocion, "Cantidad_usada":cantidad_usada});
+
+                        }else{
+                            
+                            var index = lstDetallePromocion.findIndex(function(item,i){
+                                return item.Promocion_id === Id && item.Producto_base_id === IdProductoBase;
+                            });
+
+                            if(index > -1){
+                                if(lstDetallePromocion[index].Promocion_id == Id && lstDetallePromocion[index].Producto_base_id == IdProductoBase && lstDetallePromocion[index].cantidad_usada != cantidad_usada){
+                                    console.log(lstDetallePromocion[index]);
+                                    lstDetallePromocion[index].Cantidad_usada = cantidad_usada;
+                                }
+
+                            }else{
+                                 lstDetallePromocion.push({"Promocion_id":Id, "Producto_base_id":IdProductoBase, "Producto_promocion_id":IdProductoPromocion, "Cantidad_disponible_promocion":cantidad_disponible_promocion, "Cantidad_usada":cantidad_usada});
+                            }         
+                        }
+                    }          
+                }else{
+                        document.getElementById(elId).className =  "error";  // this adds the error class
+                        document.querySelector("[id$='btnGuardar']").disabled = true;
+                    }
+            }
+            function guardarPromociones(){
+            console.log('se guardará ' + lstDetallePromocion.length);
+                console.log('se guardará ' + JSON.stringify(lstDetallePromocion));
+                crearRegistros(JSON.stringify(lstDetallePromocion));
+                lstDetallePromocion = [];
+            }
+        </script>
+    </html>
+</apex:page>

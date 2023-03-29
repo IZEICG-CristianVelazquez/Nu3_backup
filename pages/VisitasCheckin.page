@@ -1,0 +1,97 @@
+<apex:page docType="html-5.0" standardController="Visita__c" extensions="VisitasCheckinController" showHeader="false" lightningStylesheets="true">
+  <apex:includeScript value="{!$Resource.gmap}"/>
+  <apex:slds />
+    
+  <input type="button" value="Check In" onclick="checkIn()" class="slds-button slds-button_stateful .slds-is-selected slds-button_success"/>
+  <input type="button" value="Check Out" onclick="checkOut()" class="slds-button slds-button_stateful .slds-is-selected slds-button_destructive"/>
+  
+  <script>
+      function checkIn(){
+          
+          var oppId='{!visitaId}';
+          
+          GMaps.geolocate({
+          success: function(position) {
+            alert('Procesando Check In' );
+            
+            var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            var address='';
+            var geocoder = geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                        address=results[1].formatted_address;
+                                     Visualforce.remoting.Manager.invokeAction(
+                            '{!$RemoteAction.VisitasCheckinController.addCheckIns}',oppId,position.coords.latitude,  position.coords.longitude, address,function(result, event) {console.log(result);alert('Check In completado!');}
+                            );
+                    }
+                }
+            });
+            
+           
+           
+        
+            //alert('long' + position.coords.longitude);
+            
+            map.setCenter(position.coords.latitude, position.coords.longitude);
+          },
+          error: function(error) {
+            alert('Geolocation failed: '+error.message);
+          },
+          not_supported: function() {
+            alert("Your browser does not support geolocation");
+          },
+          always: function() {
+            alert("Done!");
+          }
+        });
+        
+      }
+      
+      function checkOut(){
+          
+          var oppId='{!visitaId}';
+          
+          GMaps.geolocate({
+          success: function(position) {
+            alert('Procesando Check Out' );
+            
+            var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            var address='';
+            var geocoder = geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                        address=results[1].formatted_address;
+                                     Visualforce.remoting.Manager.invokeAction(
+                            '{!$RemoteAction.VisitasCheckinController.addCheckOuts}',oppId,position.coords.latitude,  position.coords.longitude, address,function(result, event) {console.log(result);alert('Check Out completado!');}
+                            );
+                    }
+                }
+            });
+            
+           
+           
+        
+            //alert('long' + position.coords.longitude);
+            
+            map.setCenter(position.coords.latitude, position.coords.longitude);
+          },
+          error: function(error) {
+            alert('Geolocation failed: '+error.message);
+          },
+          not_supported: function() {
+            alert("Your browser does not support geolocation");
+          },
+          always: function() {
+            alert("Done!");
+          }
+        });
+        
+      }
+      
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqqej11sosokXGaQTk_-Zw9AIXMVkXoAE&callback=loadMap">
+    </script>
+  <div id="map"/>
+</apex:page>
