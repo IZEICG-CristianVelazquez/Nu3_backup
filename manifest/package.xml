@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+  <types>
+    <members>Accounts</members>
+    <members>AccountsSelector</members>
+    <members>AccountsSelectorTest</members>
+    <members>AccountsTest</members>
+    <members>AccountTriggerTest</members>
+    <members>ActualizarListaDePreciosController</members>
+    <members>AddProductosPedidosController</members>
+    <members>AddPromocionesPedidosController</members>
+    <members>AddPromocionesPedidosControllerTest</members>
+    <members>AddPromocionesPedidosTest</members>
+    <members>AgendaSemanalController</members>
+    <members>AgentesSelector</members>
+    <members>AgentesSelectorTest</members>
+    <members>Application</members>
+    <members>BatchActualizarListasPrecios</members>
+    
+    <members>CarteraClientesController</members>
+    <members>CentroDeControlRCPController</members>
+    <members>CentroDeControlRCPControllerTest</members>
+   
+    <members>ClienteSAP</members>
+    <members>ClientesJSON</members>
+    <members>ClientesJSONTest</members>
+    <members>CMActualizarClientesController</members>
+   
+    <members>Constants</members>
+    <members>CustomNotificationTypesSelector</members>
+    <members>DetalleEncuestaController</members>
+    <members>DetalleEncuestaControllerTest</members>
+    <members>DMLUtils</members>
+    <members>ErrorLog</members>
+    <members>Facturas</members>
+    <members>FacturaService</members>
+    <members>FacturaServiceImpl</members>
+    <members>FacturaServiceTest</members>
+    <members>FacturasJSON</members>
+    <members>FacturasJSON_Test</members>
+    <members>FacturasScheduler</members>
+    <members>FacturasSchedulerTest</members>
+    <members>FacturasSelector</members>
+    <members>FacturasSelectorTest</members>
+    <members>FacturasTest</members>
+    <members>FacturaTriggerTest</members>
+    <members>fflib_Answer</members>
+    <members>fflib_AnswerTest</members>
+    <members>fflib_AnyOrder</members>
+    <members>fflib_AnyOrderTest</members>
+    <members>fflib_ApexMocks</members>
+    <members>fflib_ApexMocksConfig</members>
+    <members>fflib_ApexMocksTest</members>
+    <members>fflib_ApexMocksUtils</members>
+    <members>fflib_ApexMocksUtilsTest</members>
+    <members>fflib_Application</members>
+    <members>fflib_ApplicationTest</members>
+    <members>fflib_ArgumentCaptor</members>
+    <members>fflib_ArgumentCaptorTest</members>
+    <members>fflib_IDGenerator</members>
+    <members>fflib_IDGeneratorTest</members>
+    <members>fflib_IMatcher</members>
+    <members>fflib_Inheritor</members>
+    <members>fflib_InheritorTest</members>
+    <members>fflib_InOrder</members>
+    <members>fflib_InOrderTest</members>
+    <members>fflib_InvocationOnMock</members>
+    <members>fflib_ISObjectDomain</members>
+    <members>fflib_ISObjectSelector</members>
+    <members>fflib_ISObjectUnitOfWork</members>
+    <members>fflib_Match</members>
+    <members>fflib_MatcherDefinitions</members>
+    <members>fflib_MatcherDefinitionsTest</members>
+    <members>fflib_MatchersReturnValue</members>
+    <members>fflib_MatchTest</members>
+    <members>fflib_MethodArgValues</members>
+    <members>fflib_MethodArgValuesTest</members>
+    <members>fflib_MethodCountRecorder</members>
+    <members>fflib_MethodReturnValue</members>
+    <members>fflib_MethodReturnValueRecorder</members>
+    <members>fflib_MethodVerifier</members>
+    <members>fflib_Mocks</members>
+    <members>fflib_MyList</members>
+    <members>fflib_QualifiedMethod</members>
+    <members>fflib_QualifiedMethodAndArgValues</members>
+    <members>fflib_QualifiedMethodTest</members>
+    <members>fflib_QueryFactory</members>
+    <members>fflib_QueryFactoryTest</members>
+    <members>fflib_SecurityUtils</members>
+    <members>fflib_SecurityUtilsTest</members>
+    <members>fflib_SObjectDescribe</members>
+    <members>fflib_SObjectDescribeTest</members>
+    <members>fflib_SObjectDomain</members>
+    <members>fflib_SObjectDomainTest</members>
+    <members>fflib_SObjectMocks</members>
+    <members>fflib_SObjectSelector</members>
+    <members>fflib_SObjectSelectorTest</members>
+    <members>fflib_SObjectUnitOfWork</members>
+    <members>fflib_SObjectUnitOfWorkTest</members>
+    <members>fflib_StringBuilder</members>
+    <members>fflib_StringBuilderTest</members>
+    <members>fflib_System</members>
+    <members>fflib_SystemTest</members>
+    <members>fflib_VerificationMode</members>
+  
+    <members>GroupMembersSelector</members>
+    <members>GroupMembersSelectorTest</members>
+    <members>GroupsSelector</members>
+    <members>GroupsSelectorTest</members>
+    <members>IAccounts</members>
+    <members>IAccountsSelector</members>
+    <members>IAgentesSelector</members>
+    <members>ICustomNotificationTypesSelector</members>
+    <members>IErrorLog</members>
+    <members>IFacturas</members>
+    <members>IFacturaService</members>
+    <members>IFacturasSelector</members>
+    <members>IGroupMembersSelector</members>
+    <members>IGroupsSelector</members>
+    <members>IOrders</members>
+    <members>IOrdersSelector</members>
+    <members>IPermissionSetAssignmentsSelector</members>
+    <members>IPriceBookEntriesSelector</members>
+    <members>IProductosDeFactura</members>
+    <members>IProductosDeFacturaSelector</members>
+    <members>IProductsSelector</members>
+    <members>IRegistroChoferesPedidosSelector</members>
+    <members>JSONPagosResponse</members>
+    <members>JSONPagosResponse_Test</members>
+    <members>ListasPreciosJSON</members>
+    <members>ListasPreciosJSON_Test</members>
+    <members>Lookupcontroller</members>
+    <members>LugaresDeEntregaJSON</members>
+    <members>LugaresDeEntregaSelector</members>
+    <members>MicrobatchSelfRegController</members>
+    <members>MicrobatchSelfRegControllerTest</members>
+    <members>MockHttpResponseGenerator</members>
+    <members>MSObtenerClientes</members>
+    <members>MSObtenerEstatusPedidos</members>
+    <members>MSObtenerListasPrecios</members>
+    <members>MSObtenerLugaresDeEntrega</members>
+    <members>MSObtenerNotasCredito</members>
+    <members>MSObtenerPagos</members>
+    <members>MSObtenerPedidos</members>
+    <members>MSObtenerPedidosFacturados</members>
+    <members>MSObtenerProductos</members>
+    <members>MyProfilePageController</members>
+    <members>MyProfilePageControllerTest</members>
+    <members>NotasCreditoJSON</members>
+    <members>NotasCreditoJSONTest</members>
+    <members>OrderItems</members>
+    <members>OrderItemsSelector</members>
+    <members>OrderItemsTest</members>
+    <members>Orders</members>
+    <members>OrdersSelector</members>
+    <members>OrdersTest</members>
+    <members>PDFSendMailController</members>
+    <members>PedidoCotizacionPDFController</members>
+    <members>PedidosActualizadosJSON</members>
+    <members>PedidosControllerTest</members>
+    <members>PedidosJSON</members>
+    <members>PermissionSetAssignmentsSelector</members>
+    <members>PriceBookEntriesSelector</members>
+    <members>PriceBooksSelector</members>
+    <members>ProductosDeFactura</members>
+    <members>ProductosDeFacturaSelector</members>
+    <members>ProductosDeFacturaSelectorTest</members>
+    <members>ProductosJSON</members>
+    <members>ProductosJSON_Test</members>
+    <members>ProductosOrderItem</members>
+    <members>ProductosPromocionSelector</members>
+    <members>ProductsSelector</members>
+    <members>ProductsSelectorTest</members>
+    <members>PromocionesPedidoSelector</members>
+    <members>pruebanu3</members>
+    <members>RegistroChoferesPedidosSelector</members>
+    <members>RegistroChoferesPedidosSelectorTest</members>
+    <members>RestServiceTwilioSendSMS</members>
+    <members>RestServiceTwilioSendSMSTest</members>
+    <members>RHX_TEST_Order</members>
+    <members>RoleUtils</members>
+    <members>ScheduleActualizarPagos</members>
+    <members>ScheduleActualizarPagosTest</members>
+    <members>ScheduleActualizarPedidos</members>
+    <members>ScheduleDailyFacturadoSMS</members>
+    <members>ScheduleDailyFacturadoSMSTest</members>
+    <members>ScheduleObtenerLugaresDeEntrega</members>
+    <members>ScheduleObtenerPedidos</members>
+    <members>ScheduleObtenerPedidosFacturados</members>
+    <members>ScheduleObtenerProductos</members>
+    <members>ScheduleObtenerProductosTest</members>
+    <members>SchedulerActualizarclientes</members>
+    <members>SchedulerActualizarListaDePrecios</members>
+    <members>SchedulerActualizarListaDePreciosTest</members>
+    <members>SchedulerClientesTest</members>
+    <members>SchedulerInsertarNotasCredito</members>
+    <members>SchedulerInsertarNotasCreditoTest</members>
+    <members>SchedulerObtenerPedidosFacturadosTest</members>
+    <members>SchedulerPedidosTest</members>
+    <members>ServicePedidos</members>
+    <members>ServicePedidosHelper</members>
+    <members>ServicePedidosTest</members>
+    <members>SiteLoginController</members>
+    <members>SiteLoginControllerTest</members>
+    <members>SiteRegisterController</members>
+    <members>SiteRegisterControllerTest</members>
+    
+    <members>TwilioClient</members>
+    <members>TwilioClientTest</members>
+    <members>TwilioSendMessageAction</members>
+    <members>TwilioSendMessageActionTest</members>
+    <members>TwilioSmsInvocable</members>
+    <members>TwilioSmsInvocableTest</members>
+   
+    <members>UserRolesSelector</members>
+    <members>UserSelector</members>
+    <members>visitaLocation</members>
+    <members>visitaLocationTest</members>
+    <members>VisitasCheckinController</members>
+    <members>VisitasSelector</members>
+    <name>ApexClass</name>
+  </types>
+
+  
+  <types>
+    <members>AddProductosPedidos</members>
+    <members>AddPromocionesPedidos</members>
+   
+    <members>DetalleEncuesta</members>
+    <members>Exception</members>
+    
+    <members>PedidoCotizacionPDF</members>
+  
+   
+    <members>VisitasCheckin</members>
+    <name>ApexPage</name>
+  </types>
+
+  <types>
+    <members>AccountTrigger</members>
+    <members>ErrorLogTrigger</members>
+    <members>FacturaTrigger</members>
+    <members>OrderItemTrigger</members>
+    <members>OrderTrigger</members>
+   
+    <name>ApexTrigger</name>
+  </types>
+ 
+  
+  <types>
+    <members>ActualizarListaDePrecios</members>
+    <members>AddProductosPedidosCmp</members>
+    <members>AddPromocionesPedidos</members>
+    <members>AgendaSemanal</members>
+    <members>CarteraClientes</members>
+    <members>CarteraClientesBtn</members>
+    <members>CentroDeControlRCP</members>
+    <members>CMActualizarClientes</members>
+    <members>LookupComponent</members>
+    <members>LookupComponent_DataRecord</members>
+    <members>LookupSelected</members>
+    <members>MapaVisitas</members>
+    <members>pdfViewer</members>
+    <members>PedidoCotizacionPDF</members>
+    <members>selectedLookupRemoved</members>
+    <name>AuraDefinitionBundle</name>
+  </types>
+  
+  
+ 
+
+ 
+
+  <types>
+   
+    <members>TwilioClientData.TwilioKeys</members>
+    <members>TwilioClientData.TwilioKeys_Dev</members>
+    <name>CustomMetadata</name>
+  </types>
+
+  
+
+  <version>55.0</version>
+</Package>
