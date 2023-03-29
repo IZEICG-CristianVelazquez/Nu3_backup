@@ -1,0 +1,18 @@
+<aura:component implements="lightning:isUrlAddressable,force:appHostable">
+
+<aura:handler name="init" value="{!this}" action="{!c.onPageReferenceChange}"/>
+
+<aura:attribute name="cardCode" type="String" default="Todos" />
+<aura:attribute name="slpCode" type="String" default="4" />
+<aura:attribute name="slpName" type="String" default="David Cortes Coronado" />
+<aura:attribute name="busUnit" type="String" default="NU3" />
+<aura:attribute name="page" type="String" />
+
+<aura:attribute name="baseURL" type="String" default="https://apis.gruponu3.com/cartera/?"/>    
+
+    
+    <iframe style="border: 0; height: 100%; left: 0; position: absolute; top: 0; width: 100%;" 
+            src="{! v.page }"/>
+    
+
+</aura:component>

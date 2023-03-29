@@ -1,0 +1,21 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    
+	<aura:html tag="style">
+        .slds-modal {
+        visibility: hidden;
+        display: none;
+        }
+        .slds-backdrop{
+        display: none;
+        
+        }        
+    </aura:html>
+
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="parentRecord" type="Object"/>
+	<aura:attribute name="simpleRecord" type="Object"/>
+	<aura:attribute name="error" type="String"/>
+
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+
+</aura:component>

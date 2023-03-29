@@ -1,0 +1,9 @@
+<aura:component controller="ActualizarListaDePreciosController" implements="flexiPage:availableForAllPageTypes,force:hasRecordId">
+
+        <aura:attribute name="recordId" type="String" />
+        
+        <lightning:button variant="brand" label="Actualizar Lista" 
+                            title="Generar Agenda" 
+                            onclick="{! c.handleActualizarLista }" />
+
+</aura:component>
